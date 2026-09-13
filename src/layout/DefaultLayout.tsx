@@ -14,9 +14,6 @@ export const DefaultLayout = ({children}) => {
             <Link to="/">Home</Link>
           </li>
           <li>
-            <Link to="/dashboard">Dashboard</Link>
-          </li>
-          <li>
             <Link to="/signup">Signup</Link>
           </li>
         </ul>
