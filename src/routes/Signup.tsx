@@ -4,14 +4,14 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthProvider.tsx";
 export default function Signup() {
     const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
     const auth = useAuth();
     if(auth.isAuthenticated){
         return <Navigate to="/dashboard"/>
     }
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>){
         e.preventDefault();
         try{
             const response = await fetch(`$(API_URL)/signup`, {
@@ -25,6 +25,11 @@ export default function Signup() {
                     password,
                 })
             })
+            if(response.ok){
+                console.log("User created successfully");
+            }else{
+                console.log("Something went wrong")
+            }
         }
         catch(error){
             console.error('Error during signup:', error);
@@ -37,8 +42,8 @@ export default function Signup() {
             <h1>Signup</h1>
             <label htmlFor="name">Name</label>
             <input type="text" id="name" name="name" value={name} onChange={(e) => setName(e.target.value)} />
-            <label htmlFor="email">Email</label>
-            <input type="text" id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <label htmlFor="username">Username</label>
+            <input type="text" id="username" name="username" value={username} onChange={(e) => setUsername(e.target.value)} />
             <label htmlFor="password">Password</label>
             <input type="password" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
             <button type="submit" value="Signup" >Create user</button>
