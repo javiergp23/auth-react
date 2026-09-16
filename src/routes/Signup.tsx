@@ -3,6 +3,7 @@ import {DefaultLayout} from "../layout/DefaultLayout.tsx";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthProvider.tsx";
 import { API_URL } from "../auth/constants.ts";
+import type { AuthResponseError } from "../types/types.ts";
 
 export default function Signup() {
     const [name, setName] = useState('');
@@ -30,9 +31,11 @@ export default function Signup() {
             })
             if(response.ok){
                 console.log("User created successfully");
+                setErrorResponse('');
             }else{
                 console.log("Something went wrong")
-                const json = await response.json();
+                const json = await response.json() as AuthResponseError;
+                setErrorResponse(json.body.error);
             }
         }
         catch(error){
@@ -44,6 +47,7 @@ export default function Signup() {
     <DefaultLayout>
         <form className="form" onSubmit={handleSubmit}>
             <h1>Signup</h1>
+            {!! errorResponse && <p className="errorMessage">{errorResponse}</p>}
             <label htmlFor="name">Name</label>
             <input type="text" id="name" name="name" value={name} onChange={(e) => setName(e.target.value)} />
             <label htmlFor="username">Username</label>
