@@ -1,6 +1,6 @@
 import { useState } from "react";
 import {DefaultLayout} from "../layout/DefaultLayout.tsx";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthProvider.tsx";
 import { API_URL } from "../auth/constants.ts";
 import type { AuthResponseError } from "../types/types.ts";
@@ -12,6 +12,9 @@ export default function Signup() {
     const [errorResponse, setErrorResponse] = useState('');
 
     const auth = useAuth();
+    const goTo = useNavigate();
+
+
     if(auth.isAuthenticated){
         return <Navigate to="/dashboard"/>
     }
@@ -32,6 +35,7 @@ export default function Signup() {
             if(response.ok){
                 console.log("User created successfully");
                 setErrorResponse('');
+                goTo('/');
             }else{
                 console.log("Something went wrong")
                 const json = await response.json() as AuthResponseError;
