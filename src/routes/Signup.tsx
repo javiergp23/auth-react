@@ -2,10 +2,13 @@ import { useState } from "react";
 import {DefaultLayout} from "../layout/DefaultLayout.tsx";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthProvider.tsx";
+import { API_URL } from "../auth/constants.ts";
+
 export default function Signup() {
     const [name, setName] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [errorResponse, setErrorResponse] = useState('');
 
     const auth = useAuth();
     if(auth.isAuthenticated){
@@ -14,7 +17,7 @@ export default function Signup() {
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>){
         e.preventDefault();
         try{
-            const response = await fetch(`$(API_URL)/signup`, {
+            const response = await fetch(`${API_URL}/signup`, {
                 method: "POST",
                 headers: {
                     "Content-type": "application/json",
@@ -29,6 +32,7 @@ export default function Signup() {
                 console.log("User created successfully");
             }else{
                 console.log("Something went wrong")
+                const json = await response.json();
             }
         }
         catch(error){
