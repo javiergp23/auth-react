@@ -75,7 +75,7 @@ export default function Signup() {
           onChange={(e) => setPassword(e.target.value)}
         />
         <button type="submit" value="Signup">
-          Create user
+          Create account
         </button>
       </form>
     </DefaultLayout>
